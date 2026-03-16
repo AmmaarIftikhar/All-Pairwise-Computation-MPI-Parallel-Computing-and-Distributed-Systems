@@ -1,0 +1,15 @@
+
+# 1. Compile “speedup”:
+mpicc -O3 speedup.c distributed_comp.c pairwise_comp.c -o speedup
+# Run the speedup driver (prints sequential time, parallel time, and speedup)
+mpirun --oversubscribe -np 8 ./speedup 512 1024 float
+
+# 2. Compile “time”:
+mpicc -O3 time.c distributed_comp.c pairwise_comp.c -o time
+# Run the time driver (prints only the distributed elapsed time)
+mpirun --oversubscribe -np 8 ./time 512 1024 float
+
+# 3. Compile “print_check”:
+mpicc -O3 print_check.c distributed_comp.c pairwise_comp.c -o print_check
+# Run the print_check driver (verifies/fails if mismatch between serial vs. distributed) and prints the outputs for both types (first the serial and then the mpi distributed one)
+mpirun --oversubscribe -np 8 ./print_check 512 1024 float
